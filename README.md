@@ -1,6 +1,8 @@
 # Zpi
 
-Zpi is a simple zsh plugin manager written in python.
+Zpi is a simple zsh plugin manager written in python.  
+
+**This project is still not completely finished** 
 
 ## Features
 * Zpy only runs when called by you
@@ -30,6 +32,7 @@ pluginZsh = "~/.zplugins/zplugins.zsh"  # thes file contains source [plugin] and
 pluginDir = "~/.zplugins"  # this is where plugins will be stored
 ```
 ## Roadmap
+* Enable arguments
 * Option to enable zsh-defer
 * Option to enable zcompile
 * Use remote and local files as plugin/theme
