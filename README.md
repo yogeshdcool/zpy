@@ -25,7 +25,18 @@ mv zpy.py ~/.local/bin
 ```
 
 ## Configuration
-You change these as you want
+The plugins should be mentioned as repo/plugin in your zconfig(defult is ~/.zshrc) between zpy begin and zpy end and all the lines should start with a # including the zpy ones
+```
+#zpy begin
+#   zsh-users/zsh-completions
+#     zsh-users/zsh-autosuggestions
+#zsh-users/zsh-history-substring-search
+# zdharma-continuum/fast-syntax-highlighting
+
+
+#zpy end
+```
+You variables can also be changed in zpy.py
 ```python
 zconfig = "~/.zshrc"  # this is where you should write your plugin names
 pluginZsh = "~/.zplugins/zplugins.zsh"  # thes file contains source [plugin] and should be sourced in zconfig
