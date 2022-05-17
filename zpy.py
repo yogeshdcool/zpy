@@ -1,11 +1,14 @@
 #!/usr/bin/python
 
-# Configs
-zconfig = "~/.zshrc"  # this is where you should write your plugin names
-pluginZsh = "~/.zplugins/zplugins.zsh"  # thes file contains source [plugin] and should be sourced in zconfig
-pluginDir = "~/.zplugins"  # this is where plugins will be stored
 
+# Configs
+zconfig = "zshrc"  # this is where you should write your plugin names
+pluginZsh = "zplugins/zplugins.zsh"  # thes file contains source [plugin] and should be sourced in zconfig
+pluginDir = "zplugins"  # this is where plugins will be stored
+
+import argparse
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -14,7 +17,6 @@ zconfig = Path(os.path.expanduser(zconfig)).resolve()
 pluginZsh = Path(os.path.expanduser(pluginZsh)).resolve()
 pluginDir = Path(os.path.expanduser(pluginDir)).resolve()
 
-print(zconfig, pluginDir, pluginZsh)
 
 
 def mkPluginDir():
@@ -98,5 +100,21 @@ def install():
     writePluginsName()
 
 
-if __name__ == "__main__":
+parser=argparse.ArgumentParser()
+parser.add_argument("-u","--update",action="store_true")
+parser.add_argument("-i","--install",action="store_true")
+args=parser.parse_args()
+
+if args.update:
+    print("Updating")
+    updateRepo()
+
+if args.install:
+    print("Installing")
     install()
+
+if __name__ == '__main__':
+    if len(sys.argv)==1:
+        print("The plugins mentioned are")
+        print("\n".join(getPluginsName()))
+
