@@ -12,14 +12,16 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+import threading, time
+
+start = time.perf_counter()
 
 zconfig = Path(os.path.expanduser(zconfig)).resolve()
 pluginZsh = Path(os.path.expanduser(pluginZsh)).resolve()
 pluginDir = Path(os.path.expanduser(pluginDir)).resolve()
 
 
-
-def mkPluginDir():
+def mk_plugin_Dir():
     """Make sure PluginDir Exists."""
     try:
         print(f"Making sure {pluginDir} exists")
@@ -28,7 +30,7 @@ def mkPluginDir():
         pass
 
 
-def getPluginsName() -> list:
+def get_plugins_name() -> list:
     """Get the names of the repo/plugin from the zsh config file.
 
     Returns:
@@ -43,14 +45,14 @@ def getPluginsName() -> list:
                     if not "zpy end" in plugin:
                         if plugin != "\n":
                             plugins.append(
-                                plugin.replace("\n", "").replace('"', "")[1:]
+                                plugin.replace("\n", "").replace('"', "")[1:].strip()
                             )
                     else:
                         break
     return plugins
 
 
-def writePluginsName():
+def write_plugins_name():
     """Add "source plugin-init-filr" to the zsh config file."""
     print(f"Adding source [plugin] to {pluginZsh}")
     with open(pluginZsh, "w") as pluginsFile:
@@ -62,11 +64,11 @@ def writePluginsName():
                         pluginsFile.write(f'source "{pluginDir/folder/file}"\n')
 
 
-def cloneRepo():
+def clone_repo(plugin):
     """Clone the repo of plugins in PluginDir."""
     print("Cloning the plugin repos")
     for plugin in getPluginsName():
-        s = subprocess.run(
+        subprocess.run(
             [
                 "git",
                 "-C",
@@ -79,7 +81,7 @@ def cloneRepo():
         )
 
 
-def updateRepo():
+def update_repo():
     """Updates all the plugin repo with a git pull."""
     print("Updating the plugins")
     for folder in os.listdir(pluginDir):
@@ -92,22 +94,22 @@ def updateRepo():
 def install():
     """Main function that calls all the other function"""
     print("Installation started")
-    if getPluginsName() == []:
+    if get_plugins_name() == []:
         print(f"No plugins mentioned in {zconfig}")
         sys.exit()
-    mkPluginDir()
-    cloneRepo()
-    writePluginsName()
+    mk_plugin_Dir()
+    clone_repo()
+    write_plugins_name()
 
 
-parser=argparse.ArgumentParser()
-parser.add_argument("-u","--update",action="store_true")
-parser.add_argument("-i","--install",action="store_true")
-args=parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument("-u", "--update", action="store_true")
+parser.add_argument("-i", "--install", action="store_true")
+args = parser.parse_args()
 
 if args.update:
     print("Updating")
-    updateRepo()
+    update_repo()
 
 if args.install:
     print("Installing")
@@ -117,4 +119,3 @@ if __name__ == '__main__':
     if len(sys.argv)==1:
         print("The plugins mentioned are")
         print("\n".join(getPluginsName()))
-
