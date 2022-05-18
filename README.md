@@ -1,6 +1,6 @@
-# Zpi
+# Zpy
 
-Zpi is a simple zsh plugin manager written in python.  
+Zpy is a simple zsh plugin manager written in python.  
 
 **This project is still not completely finished** 
 
