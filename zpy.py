@@ -2,7 +2,7 @@
 
 
 # Configs
-zconfig = "zshrc"  # this is where you should write your plugin names
+zconfig = "~/.zshrc"  # this is where you should write your plugin names
 pluginZsh = "zplugins/zplugins.zsh"  # thes file contains source [plugin] and should be sourced in zconfig
 pluginDir = "zplugins"  # this is where plugins will be stored
 
